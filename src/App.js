@@ -1,16 +1,49 @@
-import './App.css';
-import CounterOne from './components/CounterOne';
-import CounterTwo from './components/CounterTwo';
+import { useReducer, createContext } from 'react';
 
-const App = () => (
-  <div className="App">
-    <header className="App-header">React Hook Tutor</header>
-    <main className="App-main">
-      <CounterOne />
-      <CounterTwo />
-    </main>
-    <footer className="App-footer">by Nabendu</footer>
-  </div>
-);
+import './App.css';
+// import CounterOne from './components/CounterOne';
+// import CounterThree from './components/CounterThree';
+// import CounterTwo from './components/CounterTwo';
+import GrandParent1 from './components/GrandParent1';
+import GrandParent2 from './components/GrandParent2';
+import GrandParent3 from './components/GrandParent3';
+
+export const CountContext = createContext();
+
+const initialState = 0;
+const reducer = (state, action) => {
+  switch (action) {
+    case 'increment':
+      return state + 1;
+    case 'decrement':
+      return state - 1;
+    case 'reset':
+      return initialState;
+    default: return state;
+  }
+};
+
+const App = () => {
+
+  const [ count, dispatch ] = useReducer(reducer, initialState);
+
+  return (
+    <CountContext.Provider value={{countState: count, countDispatch: dispatch}}>
+      <div className="App">
+        <header className="App-header">React Hook Tutor</header>
+        <main className="App-main">
+          {/* <CounterOne />
+          <CounterTwo />
+          <CounterThree /> */}
+          Count - {count}
+          <GrandParent1 />
+          <GrandParent2 />
+          <GrandParent3 />
+        </main>
+        <footer className="App-footer">by Nabendu</footer>
+      </div>
+    </CountContext.Provider>
+  );
+};
 
 export default App;
